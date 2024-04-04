@@ -1,114 +1,98 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Button, message, Card, Tag, Tooltip } from "antd";
-import { Link } from "react-router-dom";
+import { List, Button, Card, Tag } from "antd";
 import eventosService from "../services/eventosService";
-import { formatDate } from "../utils/utils";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { formatDate, showNotification } from "../utils/utils";
+import { CalendarOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import "./EventosList.css";
 
 const EventosList = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     loadEvents();
-  }, []);
+  }, [currentPage]);
 
   const loadEvents = async () => {
     setLoading(true);
     try {
-      const data = await eventosService.loadEvents();
-      setEvents(data);
+      const data = await eventosService.loadEventsPage(currentPage, 3);
+      setEvents((prevEvents) => {
+        const newEvents = data.filter((newEvent) => {
+          return !prevEvents.some((prevEvent) => prevEvent.id === newEvent.id);
+        });
+        return [...prevEvents, ...newEvents];
+      });
     } catch (error) {
-      message.error("Erro ao buscar eventos");
+      showNotification("error", "Erro ao buscar eventos");
     } finally {
       setLoading(false);
     }
   };
 
   const getColorFromOrigem = (origem) => {
-    return <Tag color={origem === "OUTGO" ? "#f50" : "#2db7f5"}>{origem}</Tag>;
-  };
-
-  const columns = [
-    {
-      title: "Origem",
-      dataIndex: "origem",
-      key: "origem",
-      render: (origem) => getColorFromOrigem(origem),
-    },
-    {
-      title: "Nome",
-      dataIndex: "nome",
-      key: "nome",
-    },
-    {
-      title: "Local",
-      dataIndex: "local",
-      key: "local",
-    },
-    {
-      title: "Data Início",
-      dataIndex: "inicio",
-      key: "inicio",
-      render: (date) => formatDate(date),
-    },
-    {
-      title: " ",
-      with: "50px",
-      render: (text, record) => (
-        <Space size="small">
-          <Link to="eventos/edit/:id">
-            <Tooltip title="Visualizar/Editar">
-              <Button
-                type="primary"
-                icon={<EyeOutlined />}
-                onClick={() => handleEdit(record)}
-              ></Button>
-            </Tooltip>
-          </Link>
-          <Tooltip title="Excluir">
-            <Button
-              danger
-              icon={<DeleteOutlined />}
-              onClick={() => handleDelete(record.id)}
-            ></Button>
-          </Tooltip>
-        </Space>
-      ),
-    },
-  ];
-
-  const handleEdit = (record) => {
-    console.log("Editar evento:", record);
-  };
-
-  const handleDelete = async (id) => {
-    setLoading(true);
-    try {
-      await eventosService.deleteEvent(id);
-      message.success("Evento deletado com sucesso");
-      loadEvents();
-    } catch (error) {
-      message.error("Erro ao deletar evento");
-    } finally {
-      setLoading(false);
+    let color;
+    switch (origem) {
+      case "OUTGO":
+        color = "#f50";
+        break;
+      case "INGRESSE":
+        color = "#87d068";
+        break;
+      case "CADASTRO":
+        color = "blue";
+        break;
+      default:
+        color = "#2db7f5";
     }
+    return <Tag color={color}>{origem}</Tag>;
+  };
+
+  const handleLoadMore = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   return (
-    <Card title="Eventos">
-      <Link to="eventos/new">
-        <Button type="primary" style={{ marginBottom: 16 }}>
-          Novo Evento
-        </Button>
-      </Link>
-      <Table
-        columns={columns}
-        dataSource={events}
-        loading={loading}
-        rowKey="id"
-      />
-    </Card>
+    <div className="eventos-list-container">
+      <Card title="Eventos" className="eventos-card">
+        <List
+          loading={loading}
+          dataSource={events}
+          loadMore={
+            <div className="load-more-button">
+              <Button onClick={handleLoadMore} loading={loading}>
+                Carregar Mais
+              </Button>
+            </div>
+          }
+          renderItem={(item) => (
+            <List.Item
+              key={item.id}
+              actions={[<a key="list-loadmore-more">Mais</a>]}
+            >
+              <List.Item.Meta
+                title={item.nome}
+                description={
+                  <>
+                    <div className="event-description">
+                      <EnvironmentOutlined /> {item.local}
+                    </div>
+                    <div className="event-description">
+                      <CalendarOutlined /> {formatDate(item.inicio)}
+                    </div>
+                    <div className="event-description">
+                      {getColorFromOrigem(item.origem)}
+                    </div>
+                  </>
+                }
+                avatar={<img width={200} alt="imagem" src={item.imagemUrl} />}
+              />
+            </List.Item>
+          )}
+        />
+      </Card>
+    </div>
   );
 };
 

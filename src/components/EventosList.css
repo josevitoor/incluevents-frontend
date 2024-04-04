@@ -1,0 +1,19 @@
+.eventos-list-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .eventos-card {
+    width: 70%;
+    margin: 20px 0;
+  }
+  
+  .load-more-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .event-description {
+    margin: 8px 0;
+  }

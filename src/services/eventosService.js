@@ -18,6 +18,15 @@ const eventosService = {
     }
   },
 
+  async loadEventsPage(page, sizePage) {
+    try {
+      const response = await api.get(`/eventos/paginated/${page}/${sizePage}`);
+      return response.data;
+    } catch (error) {
+      showNotification("error", "Erro ao buscar eventos");
+    }
+  },
+
   async createEvent(event) {
     try {
       const response = await api.post("/eventos", event);
