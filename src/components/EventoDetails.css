@@ -1,0 +1,9 @@
+.evento-details-container {
+  display: flex;
+  justify-content: center;
+}
+
+.evento-card {
+  width: 70%;
+  margin: 20px 0;
+}
