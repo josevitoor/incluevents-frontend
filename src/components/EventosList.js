@@ -89,7 +89,11 @@ const EventosList = () => {
           renderItem={(item) => (
             <List.Item
               key={item.id}
-              actions={[<a key="list-loadmore-more">Mais</a>]}
+              actions={[
+                <a key="list-loadmore-more" href={`/eventos/${item.id}`}>
+                  Mais
+                </a>,
+              ]}
             >
               <List.Item.Meta
                 title={item.nome}
