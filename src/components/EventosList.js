@@ -75,7 +75,7 @@ const EventosList = () => {
 
   return (
     <div className="eventos-list-container">
-      <Card title="Eventos" className="eventos-card">
+      <Card className="eventos-card">
         <List
           loading={loading}
           dataSource={events}
