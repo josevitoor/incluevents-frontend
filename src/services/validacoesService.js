@@ -12,7 +12,7 @@ const validacoesService = {
   async getDisponiveisByEvento(idEvento) {
     try {
       const response = await api.get(
-        `/validacoes/disponiveis?idEvento=${idEvento}&idUsuario=1`
+        `/votacoes-selo/disponiveis?idEvento=${idEvento}&idUsuario=1`
       );
       return response.data;
     } catch (error) {
@@ -22,7 +22,7 @@ const validacoesService = {
 
   async criaValidacao(validacao) {
     try {
-      const response = await api.post("/validacoes", {
+      const response = await api.post("/votacoes-selo", {
         ...validacao,
         idUsuario: 1,
       });
