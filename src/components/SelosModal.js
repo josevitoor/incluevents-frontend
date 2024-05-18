@@ -10,17 +10,9 @@ import {
   Radio,
 } from "antd";
 import { useEffect, useState } from "react";
-import Icon from "@ant-design/icons";
-import { ReactComponent as ElevadorIcon } from "../storage/ELEVADOR.svg";
-import { ReactComponent as BanheiroIcon } from "../storage/BANHEIRO.svg";
-import { ReactComponent as BrailleIcon } from "../storage/BRAILLE.svg";
-import { ReactComponent as EstacionamentoIcon } from "../storage/ESTACIONAMENTO.svg";
-import { ReactComponent as InterpreteIcon } from "../storage/INTERPRETE.svg";
-import { ReactComponent as GuiaIcon } from "../storage/GUIA.svg";
-import { ReactComponent as RampaIcon } from "../storage/RAMPA.svg";
-import seloService from "../services/seloService";
 import validacoesService from "../services/validacoesService";
 import { useParams } from "react-router-dom";
+import { getSeloIcon } from "../utils/selosIcons";
 
 const ValidarSeloModal = ({ open, onClose }) => {
   const [tiposSelo, setTiposSelo] = useState([]);
@@ -70,35 +62,7 @@ const ValidarSeloModal = ({ open, onClose }) => {
     }
   }, [open]);
 
-  const getSelo = (tipo) => {
-    let component;
-    switch (tipo) {
-      case "ELEVADOR":
-        component = ElevadorIcon;
-        break;
-      case "BANHEIRO":
-        component = BanheiroIcon;
-        break;
-      case "BRAILLE":
-        component = BrailleIcon;
-        break;
-      case "ESTACIONAMENTO":
-        component = EstacionamentoIcon;
-        break;
-      case "GUIA":
-        component = InterpreteIcon;
-        break;
-      case "INTERPRETE":
-        component = GuiaIcon;
-        break;
-      case "RAMPA":
-        component = RampaIcon;
-        break;
-      default:
-        component = "";
-    }
-    return <Icon component={component} />;
-  };
+
 
   return (
     <Modal
@@ -121,7 +85,7 @@ const ValidarSeloModal = ({ open, onClose }) => {
                 onClick={() => handleSelectTipoSelo(tipoSelo)}
               >
                 <Card.Meta
-                  avatar={getSelo(tipoSelo.tipoSelo)}
+                  avatar={getSeloIcon(tipoSelo.tipoSelo)}
                   title={tipoSelo.nome}
                   description={tipoSelo.descricao}
                 />

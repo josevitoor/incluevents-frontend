@@ -1,0 +1,60 @@
+.validacoes-card {
+    width: 70%;
+    margin: 20px 0;
+}
+
+.validacoes-container {
+    display: flex;
+    justify-content: center;
+}
+
+.votacao {
+    display: flex;
+}
+
+.votos-positivos {
+   color: green;
+   margin-right: 10px;
+}
+
+.votos-negativos {
+    color: red;
+    margin-left: 10px;
+}
+
+.votos-label {
+    margin: 0 5px;
+}
+
+.nome-selo {
+    margin-left: 10px;
+    color: black;
+    width: 200px;
+    display: flex;
+}
+
+.validacao {
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
+}
+
+.botao {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.botao-aprovar {
+    background-color: #4CAF50;
+    color: white;
+    margin-right: 10px;
+}
+
+.botao-reprovar {
+    background-color: #F44336;
+    color: white;
+}
+
+.icon {
+    margin-right: 10px;
+}
