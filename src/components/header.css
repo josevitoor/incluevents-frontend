@@ -1,37 +1,55 @@
 .header-container {
-    background-color: #2196f3;
-    padding: 10px; 
-  }
-  
-  .header {
-    margin: 0 auto; 
-    color: #fff; 
-  }
-  
-  .header h1 {
-    margin: 0;
-  }
-  
-  .header nav ul {
-    list-style: none; 
-    padding: 0; 
-  }
-  
-  .header nav ul li {
-    display: inline-block;
-    margin-right: 20px; 
-  }
-  
-  .header nav ul li:last-child {
-    margin-right: 0; 
-  }
-  
-  .header nav ul li a {
-    color: #fff; 
-    text-decoration: none; 
-  }
-  
-  .header nav ul li a:hover {
-    text-decoration: underline; 
-  }
-  
+  background-color: #2196f3;
+  padding: 10px;
+}
+
+.header {
+  margin: 0 auto;
+  color: #fff;
+  text-align: center;
+}
+
+.header-content {
+  display: flex;
+  align-items: left;
+}
+
+.header h1 {
+  margin: 0;
+  padding-right: 100px; 
+}
+
+.nav-tabs {
+  margin-left: 20px; 
+}
+
+.nav-tabs ul {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.nav-tabs li {
+  margin: 0 10px;
+}
+
+.nav-tabs a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.nav-tabs .active a {
+  background-color: #1484ec;
+  font-weight: bolder;
+  border-radius: 5px;
+}
+
+.nav-tabs a:hover {
+  background-color: #187bcd;
+  border-radius: 5px;
+}
