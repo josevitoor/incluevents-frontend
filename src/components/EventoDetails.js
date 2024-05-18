@@ -74,14 +74,14 @@ const EventoDetails = () => {
       <Card
         className="evento-card"
         actions={[
-          <a href={evento.urlOriginal}>Inscreva-se!</a>,
+          <a href={evento?.urlOriginal}>Inscreva-se!</a>,
           <span role="button" onClick={() => setModalOpen(true)}>
             Realizar feedback de acessibilidade
           </span>,
         ]}
       >
         <Card.Meta
-          avatar={<img width="100%" alt="imagem" src={evento.imagemUrl} />}
+          avatar={<img width="100%" alt="imagem" src={evento?.imagemUrl} />}
           title={evento.nome}
           description={
             <>

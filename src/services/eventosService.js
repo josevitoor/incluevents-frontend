@@ -39,6 +39,7 @@ const eventosService = {
   async findEventById(id) {
     try {
       const response = await api.get(`/eventos/${id}`);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       showNotification("error", "Erro ao buscar evento por ID");

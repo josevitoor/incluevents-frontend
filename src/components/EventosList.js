@@ -96,7 +96,8 @@ const EventosList = () => {
               ]}
             >
               <List.Item.Meta
-                title={item.nome}
+               title={<span className="titulo"> {item.nome} </span>}
+
                 description={
                   <>
                     <div className="event-description">
@@ -108,7 +109,7 @@ const EventosList = () => {
                     <div className="event-description">{getSelo()}</div>
                   </>
                 }
-                avatar={<img width={200} alt="imagem" src={item.imagemUrl} />}
+                avatar={<img className="event-image" alt="imagem" src={item.imagemUrl} />}
               />
             </List.Item>
           )}
