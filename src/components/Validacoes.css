@@ -58,3 +58,14 @@
 .icon {
     margin-right: 10px;
 }
+
+.centered-tabs .ant-tabs-tab {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.centered-tabs .ant-tabs-nav-wrap {
+    display: flex;
+    justify-content: center;
+}

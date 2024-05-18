@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { List, Button, Card } from "antd";
+import { List, Button, Card, Tabs } from "antd";
 import validacoesService from "../services/validacoesService";
 import { getSeloIcon } from "../utils/selosIcons";
 
 import "./Validacoes.css";
 
 const Validacoes = () => {
-
     const [validacoes, setValidacoes] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -24,7 +23,7 @@ const Validacoes = () => {
             console.log(error);
         }
         setLoading(false);
-    }
+    };
 
     const validar = async (idSelo, possuiSelo) => {
         try {
@@ -33,52 +32,73 @@ const Validacoes = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
+
+    const validacaoVotacao = () => {
+        return (
+            <div className="validacoes-container">
+                <Card className="validacoes-card">
+                    <List
+                        loading={loading}
+                        dataSource={validacoes}
+                        renderItem={(item) => (
+                            <List.Item key={item.id}>
+                                <List.Item.Meta
+                                    title={item.nome}
+                                    description={
+                                        <div className="validacao">
+                                            <div className="nome-selo">
+                                                <div className="icon">{getSeloIcon(item.tipoSelo)}</div>
+                                                <div>{item.tipoSelo}</div>
+                                            </div>
+                                            <div className="votacao">
+                                                <div className="votos-label">Aprovaram</div>
+                                                <div className="votos-positivos">{item.scorePositivo}</div>
+                                                <div>|</div>
+                                                <div className="votos-negativos">{item.scoreNegativo}</div>
+                                                <div className="votos-label">Reprovaram</div>
+                                            </div>
+                                            <div className="botoes">
+                                                <Button className="botao-aprovar botao" onClick={() => validar(item.idselo, true)}>
+                                                    Aprovar
+                                                </Button>
+                                                <Button className="botao-reprovar botao" onClick={() => validar(item.idselo, false)}>
+                                                    Reprovar
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    }
+                                />
+                            </List.Item>
+                        )}
+                    />
+                </Card>
+            </div>
+        );
+    };
+
+    const validacaoDocumentacao = () => {
+        return (
+            <div className="validacoes-container">
+                <Card className="validacoes-card">
+                    <div>Documentação</div>
+                </Card>
+            </div>
+        );
+    };
 
     return (
-        <div className="validacoes-container">
-            <Card className="validacoes-card">
-            <List
-                loading={loading}
-                dataSource={validacoes}
-                renderItem={(item) => (
-                    <List.Item
-                    key={item.id}
-            >
-                    <List.Item.Meta
-                        title={item.nome}
-                        description={
-                            <div className="validacao">
-                                
-                                <div className="nome-selo">
-                                    <div className="icon">{getSeloIcon(item.tipoSelo)}</div>
-                                    <div>{item.tipoSelo}</div>
-                                </div>
-                                <div className="votacao">
-                                    <div className="votos-label">Aprovaram</div>
-                                    <div className="votos-positivos">{item.scorePositivo}</div>
-                                    <div>|</div>
-                                    <div className="votos-negativos">{item.scoreNegativo}</div>
-                                    <div className="votos-label">Reprovaram</div>
-                                </div>
-                                <div className="botoes">
-                                    <Button className="botao-aprovar botao" onClick={() => validar(item.idselo, true)}>
-                                        Aprovar
-                                    </Button>
-                                    <Button className="botao-reprovar botao" onClick={() => validar(item.idselo, false)}>
-                                        Reprovar
-                                    </Button>
-                                </div>
-                            </div>
-                        }
-                    />
-                    </List.Item>
-                )}
-                />
-            </Card>
+        <div>
+            <Tabs defaultActiveKey="1" className="centered-tabs">
+                <Tabs.TabPane tab="Votos" key="1">
+                    {validacaoVotacao()}
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Documentação" key="2">
+                    {validacaoDocumentacao()}
+                </Tabs.TabPane>
+            </Tabs>
         </div>
-     
     );
-  };
-  
-  export default Validacoes;
+};
+
+export default Validacoes;
