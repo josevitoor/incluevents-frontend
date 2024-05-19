@@ -69,3 +69,9 @@
     display: flex;
     justify-content: center;
 }
+
+.evento-estabelecimento-detalhe {
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}

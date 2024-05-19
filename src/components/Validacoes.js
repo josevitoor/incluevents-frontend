@@ -13,12 +13,58 @@ const Validacoes = () => {
         loadValidacoes();
     }, []);
 
+    const tratarJson = (data) => {
+        return data.map(data => {
+            const isEvento = !!data.evento;
+            const source = isEvento ? data.evento : data.estabelecimento;
+            const eventoOrEstabelecimento = isEvento ? "evento" : "estabelecimento";
+            
+            const { id, nome, local, urlOriginal, estabelecimento } = source;
+            
+            const selos = data.gruposVotacaoSelo.map(grupo => {
+                console.log("Grupo ");
+                console.log(grupo);
+                const {
+                    selo: { tipoSelo },
+                    totalScore,
+                    totalEnvios,
+                    scorePositivo,
+                    scoreNegativo,
+                    enviosPositivos,
+                    enviosNegativos
+                } = grupo;
+
+                return {
+                    tipoSelo,
+                    totalScore,
+                    totalEnvios,
+                    scorePositivo,
+                    scoreNegativo,
+                    enviosPositivos,
+                    enviosNegativos
+                };
+            });
+
+            return {
+                id,
+                nome,
+                local,
+                urlOriginal,
+                estabelecimento,
+                eventoOrEstabelecimento,
+                selos
+            };
+        }).filter(item => item.selos.length > 0);
+    };
+
     const loadValidacoes = async () => {
         setLoading(true);
         try {
             const data = await validacoesService.getValidacoesPendentes();
-            setValidacoes(data);
-            console.log("Validações pendentes: ", data);
+            const treated = tratarJson(data);
+            setValidacoes(treated);
+            console.log("Dados tratados");
+            console.log(treated);
         } catch (error) {
             console.log(error);
         }
@@ -44,29 +90,41 @@ const Validacoes = () => {
                         renderItem={(item) => (
                             <List.Item key={item.id}>
                                 <List.Item.Meta
-                                    title={item.nome}
-                                    description={
-                                        <div className="validacao">
-                                            <div className="nome-selo">
-                                                <div className="icon">{getSeloIcon(item.tipoSelo)}</div>
-                                                <div>{item.tipoSelo}</div>
-                                            </div>
-                                            <div className="votacao">
-                                                <div className="votos-label">Aprovaram</div>
-                                                <div className="votos-positivos">{item.scorePositivo}</div>
-                                                <div>|</div>
-                                                <div className="votos-negativos">{item.scoreNegativo}</div>
-                                                <div className="votos-label">Reprovaram</div>
-                                            </div>
-                                            <div className="botoes">
-                                                <Button className="botao-aprovar botao" onClick={() => validar(item.idselo, true)}>
-                                                    Aprovar
-                                                </Button>
-                                                <Button className="botao-reprovar botao" onClick={() => validar(item.idselo, false)}>
-                                                    Reprovar
-                                                </Button>
-                                            </div>
+                                    title={
+                                        <div className="evento-estabelecimento-detalhe">
+                                            <div>{item.nome} ({item.eventoOrEstabelecimento})</div>
+                                            <div>{item.local}</div>
+                                            {
+                                                item.eventoOrEstabelecimento === "evento" ? 
+                                                (<div><a href={`/eventos/${item.id}`} target="_blank" rel="noopener noreferrer">Ver evento</a></div>) : 
+                                                (<div><a href={`/estabelecimento/${item.id}`} target="_blank" rel="noopener noreferrer">Ver estabelecimento</a></div>)
+                                            }
                                         </div>
+                                    }
+                                    description={
+                                        item.selos.map((selo, index) => (
+                                            <div key={index} className="validacao">
+                                                <div className="nome-selo">
+                                                    <div className="icon">{getSeloIcon(selo.tipoSelo)}</div>
+                                                    <div>{selo.tipoSelo}</div>
+                                                </div>
+                                                <div className="votacao">
+                                                    <div className="votos-label">Aprovaram</div>
+                                                    <div className="votos-positivos">{selo.scorePositivo}</div>
+                                                    <div>|</div>
+                                                    <div className="votos-negativos">{selo.scoreNegativo}</div>
+                                                    <div className="votos-label">Reprovaram</div>
+                                                </div>
+                                                <div className="botoes">
+                                                    <Button className="botao-aprovar botao" onClick={() => validar(item.id, true)}>
+                                                        Aprovar
+                                                    </Button>
+                                                    <Button className="botao-reprovar botao" onClick={() => validar(item.id, false)}>
+                                                        Reprovar
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ))
                                     }
                                 />
                             </List.Item>
