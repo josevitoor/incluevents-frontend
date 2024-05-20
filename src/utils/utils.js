@@ -21,3 +21,19 @@ export const showNotification = (type, title, description) => {
       break;
   }
 };
+
+export const formatarEndereco = (rua, numero, bairro, cidade, estado, cep, complemento) => {
+    let endereco = `${rua}, ${numero}`;
+
+    if (complemento) {
+        endereco += `, ${complemento}`;
+    }
+
+    endereco += `, ${bairro}, ${cidade} - ${estado}`;
+
+    if (cep) {
+        endereco += `, CEP: ${cep}`;
+    }
+
+    return endereco;
+}

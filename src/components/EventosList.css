@@ -1,6 +1,8 @@
 .eventos-list-container {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .eventos-card {
@@ -27,4 +29,22 @@
 
 .titulo{
     font-size: 20px;
+}
+
+.search-card {
+    width: 70%;
+    margin: 20px 0;
+    display: flex;
+    gap: 24px;
+}
+
+.button-search{
+    border: none;
+    background-color: #1E87DB;
+    color: white;
+    min-width: 180px;
+}
+
+.button-search:hover{
+    background-color: #1A78C2;
 }

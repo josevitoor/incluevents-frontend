@@ -46,6 +46,16 @@ const eventosService = {
     }
   },
 
+  async findEventByName(str) {
+    try {
+      const response = await api.get(`/eventos/txt=${str}`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      showNotification("error", "Erro ao buscar evento por Nome");
+    }
+  },
+
   async updateEvent(event) {
     try {
       const response = await api.put(`/eventos/update/${event.id}`, event);

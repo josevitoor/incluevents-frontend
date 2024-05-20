@@ -81,7 +81,7 @@ const EventoDetails = () => {
         ]}
       >
         <Card.Meta
-          avatar={<img width="100%" alt="imagem" src={evento?.imagemUrl} />}
+          avatar={<img width="100%" alt="imagem" src={evento?.imagemUrl} style={{ maxWidth: '500px' }} />}
           title={evento.nome}
           description={
             <>

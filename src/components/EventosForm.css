@@ -1,0 +1,39 @@
+.drawer-event .ant-drawer-body{
+    gap: 32px;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-drawer{
+    padding: 12px 16px;
+
+}
+
+.footer-drawer-button{
+    min-width: 200px;
+    margin-right: 16px;
+}
+
+.footer-drawer-button:last-child{
+    margin-right: 0;
+    background-color: #2196f3;
+    color: white;
+}
+
+.section-tile{
+    padding: 8px 0px;
+    font-size: large;
+    font-weight: 600;
+}
+
+.section-tile::after {
+    content: '';
+    position: relative;
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 10%;
+    height: 3px;
+    background-color: #2196f3;
+  }
