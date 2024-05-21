@@ -4,15 +4,15 @@ import EventosList from "../components/EventosList";
 import EventosForm from "../components/EventosForm";
 import EventoDetails from "../components/EventoDetails";
 import Validacoes from "../components/Validacoes";
-import Login from "../components/Login";
 import CreateUser from "../components/CreateUser";
+import Login from "../components/Login";
 
 const PrivateRoute = ({ element: Element, ...rest }) => {
   const isAuthenticated = !!localStorage.getItem("token");
   return isAuthenticated ? <Element {...rest} /> : <Navigate to="/login" />;
 };
 
-const RouteEventos = () => {
+const RouterEventos = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -44,4 +44,4 @@ const RouteEventos = () => {
   );
 };
 
-export default RouteEventos;
+export default RouterEventos;
