@@ -13,6 +13,7 @@ const Login = () => {
       const response = await usuarioService.login(values);
       const token = response.token;
       localStorage.setItem("token", token);
+      console.log(token);
       message.success("Login realizado com sucesso!");
       navigate("/eventos");
     } catch (error) {

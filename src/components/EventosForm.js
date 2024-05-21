@@ -50,15 +50,6 @@ const EventosForm = ({ isVisible, onClose }) => {
     };
 
     const handleSubmitForm = async () => {
-        // nome: nome,
-        // local: formatarEndereco(rua, numero, bairro, cidade, estado, cep, complemento),
-        // descricao: descricao,
-        // urlOriginal: link_ingresso,
-        // imagemUrl: capa_evento,
-        // inicio: data_inicio;
-        // fim: data_fim
-
-        // categorias: ,
 
         try {
             await form.validateFields();
@@ -81,8 +72,8 @@ const EventosForm = ({ isVisible, onClose }) => {
             }
 
             await eventosService.createEvent(data);
-
-            console.log('Evento criado!', data);
+            message.success("Evento criado com sucesso!");
+            onClose();
         } catch (error) {
             console.error('Erro ao processar o formulário:', error);
         }
@@ -243,7 +234,7 @@ const EventosForm = ({ isVisible, onClose }) => {
                                     }}
                             >
                                 {optionsCategoria.map(option => (
-                                    <Option key={option.id} value={option.nome}>
+                                    <Option key={option.id} value={ option.nome }>
                                     {option.nome}
                                     </Option>
                                 ))}
