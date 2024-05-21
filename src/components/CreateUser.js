@@ -12,10 +12,8 @@ const CreateUser = () => {
     try {
       await usuarioService.createUser(values);
       message.success("Usuário cadastrado com sucesso!");
-      navigate("/eventos");
-    } catch (error) {
-      message.error("Falha ao cadastrar usuário.");
-    }
+      navigate("/login");
+    } catch (error) {}
   };
 
   const redirectToLogin = () => {
