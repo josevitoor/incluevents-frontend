@@ -6,6 +6,7 @@ import { CalendarOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import "./EventoDetails.css";
 import { useParams } from "react-router-dom";
 import ValidarSeloModal from "./SelosModal";
+import Header from "./Header";
 
 const EventoDetails = () => {
   const [evento, setEvento] = useState({});
@@ -31,37 +32,39 @@ const EventoDetails = () => {
   };
 
   return (
-    <div className="evento-details-container">
-      <ValidarSeloModal open={modalOpen} onClose={() => setModalOpen(false)} />
-      <Card
-        className="evento-card"
-        actions={[
-          <a href={evento?.urlOriginal}>Inscreva-se!</a>,
-          <span role="button" onClick={() => setModalOpen(true)}>
-            Realizar feedback de acessibilidade
-          </span>,
-        ]}
-      >
-        <Card.Meta
-          avatar={<img width="100%" alt="imagem" src={evento?.imagemUrl} style={{ maxWidth: '500px' }} />}
-          title={evento.nome}
-          description={
-            <>
-              <p className="event-description">
-                <EnvironmentOutlined /> {evento.local}
-              </p>
-              <p className="event-description">
-                <CalendarOutlined /> {formatDate(evento.inicio)}
-              </p>
-              <p className="event-description">{evento.descricao}</p>
-              {evento.categorias?.map((categoria) => (
-                <Tag key={categoria.id}>{categoria.nome}</Tag>
-              ))}
-            </>
-          }
-        />
-      </Card>
-    </div>
+    <Header>
+        <div className="evento-details-container">
+        <ValidarSeloModal open={modalOpen} onClose={() => setModalOpen(false)} />
+        <Card
+            className="evento-card"
+            actions={[
+            <a href={evento?.urlOriginal}>Inscreva-se!</a>,
+            <span role="button" onClick={() => setModalOpen(true)}>
+                Realizar feedback de acessibilidade
+            </span>,
+            ]}
+        >
+            <Card.Meta
+            avatar={<img width="100%" alt="imagem" src={evento?.imagemUrl} style={{ maxWidth: '500px' }} />}
+            title={evento.nome}
+            description={
+                <>
+                <p className="event-description">
+                    <EnvironmentOutlined /> {evento.local}
+                </p>
+                <p className="event-description">
+                    <CalendarOutlined /> {formatDate(evento.inicio)}
+                </p>
+                <p className="event-description">{evento.descricao}</p>
+                {evento.categorias?.map((categoria) => (
+                    <Tag key={categoria.id}>{categoria.nome}</Tag>
+                ))}
+                </>
+            }
+            />
+        </Card>
+        </div>
+    </Header>
   );
 };
 
