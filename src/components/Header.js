@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./header.css";
-import Logo from "../assets/img/logo_white.png";
 import EventosForm from "./EventosForm";
 import { Button } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
+import Logo from "../storage/IncluEvents.svg";
 
 const Header = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ const Header = ({ children }) => {
             <ul>
               <li>
                 <a href="/eventos">
-                  <img src={Logo} width={20} />
+                  <img src={Logo} width={40} />
                   <h1>IncluEvents</h1>
                 </a>
               </li>
