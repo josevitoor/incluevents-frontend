@@ -31,6 +31,30 @@ const validacoesService = {
       showNotification("error", "Erro ao criar validação");
     }
   },
+
+  async getValidacoesPendentes() {
+    try {
+      const response = await api.get(
+        `/votacoes-selo/pendentes`
+      );
+      return response.data;
+    } catch (error) {
+      showNotification("error", "Erro ao buscar validações pendentes");
+    }
+  },
+
+  async validarSelo(idSelo, possuiSelo) {
+    try {
+      const response = await api.post("/votacoes-selo/validar", {
+        idSelo,
+        possuiSelo,
+      });
+      return response.data;
+    } catch (error) {
+      showNotification("error", "Erro ao criar validação");
+    }
+  },
+
 };
 
 export default validacoesService;
