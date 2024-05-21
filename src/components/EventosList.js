@@ -49,9 +49,6 @@ const EventosList = () => {
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
     };
-  const handleLoadMore = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
 
     const handleSearch = () => {
 
@@ -67,36 +64,7 @@ const EventosList = () => {
         }
       };
 
-    const getSelo = (tipo) => {
-      let component;
-      switch (tipo) {
-        case "ELEVADOR":
-          component = ElevadorIcon;
-          break;
-        case "BANHEIRO":
-          component = BanheiroIcon;
-          break;
-        case "BRAILLE":
-          component = BrailleIcon;
-          break;
-        case "ESTACIONAMENTO":
-          component = EstacionamentoIcon;
-          break;
-        case "GUIA":
-          component = InterpreteIcon;
-          break;
-        case "INTERPRETE":
-          component = GuiaIcon;
-          break;
-        case "RAMPA":
-          component = RampaIcon;
-          break;
-        default:
-          component = "";
-      }
-      return <Icon component={component} />;
-    };
-
+  
     const handleLoadMore = () => {
         if(searchValue == ""){
             setCurrentPage((prevPage) => prevPage + 1);
