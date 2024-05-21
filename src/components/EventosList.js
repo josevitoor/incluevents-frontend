@@ -3,18 +3,11 @@ import { List, Button, Card } from "antd";
 import eventosService from "../services/eventosService";
 import { formatDate, showNotification } from "../utils/utils";
 import { CalendarOutlined, EnvironmentOutlined } from "@ant-design/icons";
-import Icon from "@ant-design/icons";
-import { ReactComponent as ElevadorIcon } from "../storage/ELEVADOR.svg";
-import { ReactComponent as BanheiroIcon } from "../storage/BANHEIRO.svg";
-import { ReactComponent as BrailleIcon } from "../storage/BRAILLE.svg";
-import { ReactComponent as EstacionamentoIcon } from "../storage/ESTACIONAMENTO.svg";
-import { ReactComponent as InterpreteIcon } from "../storage/INTERPRETE.svg";
-import { ReactComponent as GuiaIcon } from "../storage/GUIA.svg";
-import { ReactComponent as RampaIcon } from "../storage/RAMPA.svg";
 import "./EventosList.css";
 import { Link } from "react-router-dom";
 import Search from "antd/es/transfer/search";
 import Loading from "./Loading";
+import { getSeloIcon } from "../utils/selosIcons";
 
 const EventosList = () => {
     const [events, setEvents] = useState([]);
@@ -71,36 +64,7 @@ const EventosList = () => {
         }
       };
 
-    const getSelo = (tipo) => {
-      let component;
-      switch (tipo) {
-        case "ELEVADOR":
-          component = ElevadorIcon;
-          break;
-        case "BANHEIRO":
-          component = BanheiroIcon;
-          break;
-        case "BRAILLE":
-          component = BrailleIcon;
-          break;
-        case "ESTACIONAMENTO":
-          component = EstacionamentoIcon;
-          break;
-        case "GUIA":
-          component = InterpreteIcon;
-          break;
-        case "INTERPRETE":
-          component = GuiaIcon;
-          break;
-        case "RAMPA":
-          component = RampaIcon;
-          break;
-        default:
-          component = "";
-      }
-      return <Icon component={component} />;
-    };
-
+  
     const handleLoadMore = () => {
         if(searchValue == ""){
             setCurrentPage((prevPage) => prevPage + 1);
@@ -161,7 +125,7 @@ const EventosList = () => {
                         <div className="event-description">
                         <CalendarOutlined /> {formatDate(item.inicio)}
                         </div>
-                        <div className="event-description">{getSelo()}</div>
+                        <div className="event-description">{getSeloIcon()}</div>
                     </>
                     }
                     avatar={
