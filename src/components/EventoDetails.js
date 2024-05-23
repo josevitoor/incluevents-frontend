@@ -48,19 +48,16 @@ const EventoDetails = () => {
     buttons.push("documentacao");
   }
   */
-  buttons.push("validacao");
-  buttons.push ("documentacao");
 
-  /*
-  if (evento.criador && evento.criador?.id !== auth.user?.id) {
+  if (evento.criador?.id !== auth.user?.id) {
     buttons.push("validacao");
-  } else if (
-    evento.criador?.id === auth.user?.id ||
-    (!evento.criador && auth.user.reputacao >= 70)
-  ) {
+
+    if (!evento.criador && auth.user?.reputacao >= 70) {
+      buttons.push("documentacao");
+    }
+  } else {
     buttons.push("documentacao");
   }
-  */
 
   return (
     <Header>

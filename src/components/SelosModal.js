@@ -19,8 +19,6 @@ import { useAuth } from "../contexts/auth";
 import documentacoesService from "../services/documentacaoService";
 
 const ValidarSeloModal = ({ open, onClose, evento, tipo = "validacao" }) => {
-  const auth = useAuth();
-
   const [tiposSelo, setTiposSelo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
@@ -57,12 +55,22 @@ const ValidarSeloModal = ({ open, onClose, evento, tipo = "validacao" }) => {
   const handleFinish = async () => {
     const data = form.getFieldsValue();
     setLoadingCreate(true);
-    await validacoesService.criaValidacao({
-      idEvento: params.id,
-      tipoSelo: tipoSelo,
-      possuiSelo: true,
-      ...data,
-    });
+    if (tipo === "validacao") {
+      await validacoesService.criaValidacao({
+        idEvento: params.id,
+        tipoSelo: tipoSelo,
+        possuiSelo: true,
+        ...data,
+      });
+    } else {
+      const formData = new FormData();
+
+      formData.set("idEvento", params.id);
+      formData.set("tipoSelo", tipoSelo);
+      formData.set("arquivo", file);
+
+      await documentacoesService.criaDocumentacao(formData);
+    }
     setLoadingCreate(false);
     onClose?.();
   };
