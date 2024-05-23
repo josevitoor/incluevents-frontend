@@ -60,6 +60,7 @@ const ValidarSeloModal = ({ open, onClose, evento, tipo = "validacao" }) => {
     await validacoesService.criaValidacao({
       idEvento: params.id,
       tipoSelo: tipoSelo,
+      possuiSelo: true,
       ...data,
     });
     setLoadingCreate(false);
