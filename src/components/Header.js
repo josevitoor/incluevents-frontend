@@ -4,8 +4,11 @@ import EventosForm from "./EventosForm";
 import { Button } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import Logo from "../storage/IncluEvents.svg";
+import { useAuth } from "../contexts/auth";
 
 const Header = ({ children }) => {
+  const auth = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
@@ -15,11 +18,6 @@ const Header = ({ children }) => {
 
   const closeDrawer = () => {
     setIsDrawerVisible(false);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
   };
 
   return (
@@ -57,7 +55,7 @@ const Header = ({ children }) => {
               <Button
                 type="primary"
                 danger
-                onClick={handleLogout}
+                onClick={auth.logout}
                 icon={<UserOutlined />}
               >
                 Sair

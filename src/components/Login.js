@@ -1,24 +1,14 @@
 import React from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import usuarioService from "../services/usuarioService";
 import "./login.css";
 import logo from "../storage/IncluEvents.svg";
+import { useAuth } from "../contexts/auth";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const onFinish = async (values) => {
-    try {
-      const response = await usuarioService.login(values);
-      const token = response.token;
-      localStorage.setItem("token", token);
-      message.success("Login realizado com sucesso!");
-      navigate("/eventos");
-    } catch (error) {
-      localStorage.removeItem("token");
-    }
-  };
+  const auth = useAuth();
 
   const redirectToRegister = () => {
     navigate("/create-user");
@@ -33,7 +23,7 @@ const Login = () => {
           <span className="events">Events</span>
         </h1>
         <h3 className="login-subtitle">Entrar</h3>
-        <Form name="login" onFinish={onFinish} layout="vertical">
+        <Form name="login" onFinish={auth.login} layout="vertical">
           <Form.Item
             name="username"
             label="Usuário"

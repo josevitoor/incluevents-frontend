@@ -8,18 +8,25 @@ import {
   List,
   Modal,
   Radio,
+  Upload,
 } from "antd";
 import { useEffect, useState } from "react";
 import validacoesService from "../services/validacoesService";
 import { useParams } from "react-router-dom";
 import { getSeloIcon } from "../utils/selosIcons";
+import { UploadOutlined } from "@ant-design/icons";
+import { useAuth } from "../contexts/auth";
+import documentacoesService from "../services/documentacaoService";
 
-const ValidarSeloModal = ({ open, onClose }) => {
+const ValidarSeloModal = ({ open, onClose, evento, tipo = "validacao" }) => {
+  const auth = useAuth();
+
   const [tiposSelo, setTiposSelo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [tipoSelo, setTipoSelo] = useState({});
   const [loadingCreate, setLoadingCreate] = useState(false);
+  const [file, setFile] = useState(null);
 
   const [form] = Form.useForm();
 
@@ -27,7 +34,10 @@ const ValidarSeloModal = ({ open, onClose }) => {
 
   const loadTiposSelo = async () => {
     setLoading(true);
-    const data = await validacoesService.getDisponiveisByEvento(params.id);
+    const data =
+      tipo === "validacao"
+        ? await validacoesService.getDisponiveisByEvento(params.id)
+        : await documentacoesService.getDisponiveisByEvento(params.id);
     setTiposSelo(data);
     setLoading(false);
   };
@@ -62,8 +72,6 @@ const ValidarSeloModal = ({ open, onClose }) => {
     }
   }, [open]);
 
-
-
   return (
     <Modal
       open={open}
@@ -96,22 +104,37 @@ const ValidarSeloModal = ({ open, onClose }) => {
       )}
       {step === 2 && (
         <Form layout="vertical" onFinish={handleFinish} form={form}>
-          <Form.Item
-            label="O evento possui o tipo de selo de acessibilidade selecionado?"
-            name="possuiSelo"
-            required
+          {tipo === "validacao" && (
+            <>
+              <Form.Item
+                label="O evento possui o tipo de selo de acessibilidade selecionado?"
+                name="possuiSelo"
+                required
+              >
+                <Radio.Group name="">
+                  <Radio value={true}>Sim</Radio>
+                  <Radio value={false}>Não</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                label="Adicione uma observação sobre esse selo no evento (opcional):"
+                name="descricao"
+              >
+                <Input.TextArea />
+              </Form.Item>
+            </>
+          )}
+          <Upload
+            beforeUpload={(file) => setFile(file)}
+            onRemove={() => setFile(null)}
+            fileList={file && [file]}
           >
-            <Radio.Group name="">
-              <Radio value={true}>Sim</Radio>
-              <Radio value={false}>Não</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item
-            label="Adicione uma observação sobre esse selo no evento (opcional):"
-            name="descricao"
-          >
-            <Input.TextArea />
-          </Form.Item>
+            {tipo === "documentacao" && (
+              <Form.Item label="Envie uma documentação que comprove que esse evento possui esse selo:">
+                <Button icon={<UploadOutlined />}>Documentação</Button>
+              </Form.Item>
+            )}
+          </Upload>
           <Form.Item
             style={{
               width: "100%",
@@ -120,7 +143,7 @@ const ValidarSeloModal = ({ open, onClose }) => {
             }}
           >
             <Button htmlType="submit" type="primary" loading={loadingCreate}>
-              Enviar validação
+              Enviar {tipo === "validacao" ? "validação" : "documentação"}
             </Button>
           </Form.Item>
         </Form>

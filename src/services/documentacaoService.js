@@ -21,47 +21,50 @@ api.interceptors.request.use(
   }
 );
 
-const validacoesService = {
+const documentacoesService = {
   async getDisponiveisByEvento(idEvento) {
     try {
       const response = await api.get(
-        `/votacoes-selo/disponiveis?idEvento=${idEvento}`
+        `/documentacoes-selo/disponiveis?idEvento=${idEvento}`
       );
       return response.data;
     } catch (error) {
-      showNotification("error", "Erro ao buscar validações disponíveis");
+      showNotification(
+        "error",
+        "Erro ao buscar solicitações de documentação disponíveis"
+      );
     }
   },
 
-  async criaValidacao(validacao) {
+  async criaDocumentacao(data) {
     try {
-      const response = await api.post("/votacoes-selo", validacao);
+      const response = await api.post("/documentacoes-selo", data);
       return response.data;
     } catch (error) {
-      showNotification("error", "Erro ao criar validação");
+      showNotification("error", "Erro ao enviar documentação");
     }
   },
 
-  async getValidacoesPendentes() {
+  async getDocumentacoesPendentes() {
     try {
-      const response = await api.get(`/votacoes-selo/pendentes`);
+      const response = await api.get(`/documentacoes-selo/pendentes`);
       return response.data;
     } catch (error) {
-      showNotification("error", "Erro ao buscar validações pendentes");
+      showNotification("error", "Erro ao buscar documentações pendentes");
     }
   },
 
-  async validarSelo(idSelo, possuiSelo) {
+  async validarDocumentacao(idSelo, valida) {
     try {
-      const response = await api.post("/votacoes-selo/validar", {
+      const response = await api.post("/documentacoes-selo/validar", {
         idSelo,
-        possuiSelo,
+        valida,
       });
       return response.data;
     } catch (error) {
-      showNotification("error", "Erro ao criar validação");
+      showNotification("error", "Erro ao validar documentação");
     }
   },
 };
 
-export default validacoesService;
+export default documentacoesService;

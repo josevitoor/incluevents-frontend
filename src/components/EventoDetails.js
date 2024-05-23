@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { List, Button, Card, Tag } from "antd";
 import eventosService from "../services/eventosService";
 import { formatDate, showNotification } from "../utils/utils";
@@ -7,11 +7,15 @@ import "./EventoDetails.css";
 import { useParams } from "react-router-dom";
 import ValidarSeloModal from "./SelosModal";
 import Header from "./Header";
+import { useAuth } from "../contexts/auth";
 
 const EventoDetails = () => {
+  const auth = useAuth();
+
   const [evento, setEvento] = useState({});
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("validacao");
 
   const params = useParams();
 
@@ -31,39 +35,70 @@ const EventoDetails = () => {
     }
   };
 
+  const buttons = [];
+
+  if (evento.criador && evento.criador?.id !== auth.user?.id) {
+    buttons.push("validacao");
+  } else if (
+    evento.criador?.id === auth.user?.id ||
+    (!evento.criador && auth.user.reputacao >= 70)
+  ) {
+    buttons.push("documentacao");
+  }
+
   return (
     <Header>
-        <div className="evento-details-container">
-        <ValidarSeloModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <div className="evento-details-container">
+        <ValidarSeloModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          evento={evento}
+          tipo={modalType}
+        />
         <Card
-            className="evento-card"
-            actions={[
+          className="evento-card"
+          actions={[
             <a href={evento?.urlOriginal}>Inscreva-se!</a>,
-            <span role="button" onClick={() => setModalOpen(true)}>
-                Realizar feedback de acessibilidade
-            </span>,
-            ]}
+            ...buttons.map((key) => (
+              <span
+                key={key}
+                role="button"
+                onClick={() => [setModalOpen(true), setModalType(key)]}
+              >
+                {key === "validacao"
+                  ? "Realizar feedback de acessibilidade"
+                  : "Enviar documentação de acessibilidade"}
+              </span>
+            )),
+          ]}
         >
-            <Card.Meta
-            avatar={<img width="100%" alt="imagem" src={evento?.imagemUrl} style={{ maxWidth: '500px' }} />}
+          <Card.Meta
+            avatar={
+              <img
+                width="100%"
+                alt="imagem"
+                src={evento?.imagemUrl}
+                style={{ maxWidth: "500px" }}
+              />
+            }
             title={evento.nome}
             description={
-                <>
+              <>
                 <p className="event-description">
-                    <EnvironmentOutlined /> {evento.local}
+                  <EnvironmentOutlined /> {evento.local}
                 </p>
                 <p className="event-description">
-                    <CalendarOutlined /> {formatDate(evento.inicio)}
+                  <CalendarOutlined /> {formatDate(evento.inicio)}
                 </p>
                 <p className="event-description">{evento.descricao}</p>
                 {evento.categorias?.map((categoria) => (
-                    <Tag key={categoria.id}>{categoria.nome}</Tag>
+                  <Tag key={categoria.id}>{categoria.nome}</Tag>
                 ))}
-                </>
+              </>
             }
-            />
+          />
         </Card>
-        </div>
+      </div>
     </Header>
   );
 };
