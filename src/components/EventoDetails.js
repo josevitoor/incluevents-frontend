@@ -37,6 +37,21 @@ const EventoDetails = () => {
 
   const buttons = [];
 
+  console.log("Testes aqui...");
+  console.log(evento.criador);
+  console.log(evento.criador?.id);
+  console.log(evento.criador?.id !== auth.user?.id);
+
+  /*
+  if(evento.criador?.id === auth.user?.id ||
+    (!evento.criador && auth.user.reputacao >= 70)){
+    buttons.push("documentacao");
+  }
+  */
+  buttons.push("validacao");
+  buttons.push ("documentacao");
+
+  /*
   if (evento.criador && evento.criador?.id !== auth.user?.id) {
     buttons.push("validacao");
   } else if (
@@ -45,6 +60,7 @@ const EventoDetails = () => {
   ) {
     buttons.push("documentacao");
   }
+  */
 
   return (
     <Header>

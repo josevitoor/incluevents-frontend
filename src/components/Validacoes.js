@@ -24,10 +24,8 @@ const Validacoes = () => {
         const { id, nome, local, urlOriginal, estabelecimento } = source;
 
         const selos = data.gruposVotacaoSelo.map((grupo) => {
-          console.log("Grupo ");
-          console.log(grupo);
           const {
-            selo: { tipoSelo },
+            selo: { tipoSelo, id },
             totalScore,
             totalEnvios,
             scorePositivo,
@@ -37,6 +35,7 @@ const Validacoes = () => {
           } = grupo;
 
           return {
+            id,
             tipoSelo,
             totalScore,
             totalEnvios,
@@ -48,7 +47,6 @@ const Validacoes = () => {
         });
 
         return {
-          id,
           nome,
           local,
           urlOriginal,
@@ -131,24 +129,24 @@ const Validacoes = () => {
                       <div className="votacao">
                         <div className="votos-label">Aprovaram</div>
                         <div className="votos-positivos">
-                          {selo.scorePositivo}
+                          {selo.enviosPositivos}
                         </div>
                         <div>|</div>
                         <div className="votos-negativos">
-                          {selo.scoreNegativo}
+                          {selo.enviosNegativos}
                         </div>
                         <div className="votos-label">Reprovaram</div>
                       </div>
                       <div className="botoes">
                         <Button
                           className="botao-aprovar botao"
-                          onClick={() => validar(item.id, true)}
+                          onClick={() => validar(selo.id, true)}
                         >
                           Aprovar
                         </Button>
                         <Button
                           className="botao-reprovar botao"
-                          onClick={() => validar(item.id, false)}
+                          onClick={() => validar(selo.id, false)}
                         >
                           Reprovar
                         </Button>
