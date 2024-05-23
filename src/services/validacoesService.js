@@ -51,6 +51,15 @@ const validacoesService = {
     }
   },
 
+  async getDocumentacoesPendentes() {
+    try {
+      const response = await api.get(`/documentacoes-selo/pendentes`);
+      return response.data;
+    } catch (error) {
+      showNotification("error", "Erro ao buscar documentações pendentes");
+    }
+  },
+
   async validarSelo(idSelo, possuiSelo) {
     try {
       const response = await api.post("/votacoes-selo/validar", {
