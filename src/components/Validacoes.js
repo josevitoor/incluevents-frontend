@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { List, Button, Card, Tabs } from "antd";
 import validacoesService from "../services/validacoesService";
 import { getSeloIcon } from "../utils/selosIcons";
+import { useAuth } from "../contexts/auth";
 
 import "./Validacoes.css";
 import Header from "./Header";
@@ -11,10 +12,23 @@ const Validacoes = () => {
   const [validacoesDocs, setValidacoesDocs] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const auth = useAuth();
+
+
   useEffect(() => {
+    checkUserPermission();
     loadValidacoesVotos();
     loadValidacoesDocs();
   }, []);
+
+  const checkUserPermission = () => {
+    if (auth.user?.tipo !== "PREFEITURA") {
+      window.location.href = "/eventos";
+    }
+    if (!auth.user) {
+      window.location.href = "/login";
+    }
+  };
 
   const tratarJsonVotos = (data) => {
     return data

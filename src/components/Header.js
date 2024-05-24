@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.css";
 import EventosForm from "./EventosForm";
 import { Button } from "antd";
@@ -35,9 +35,11 @@ const Header = ({ children }) => {
               <li>
                 <a href="/eventos">Eventos</a>
               </li>
-              <li>
-                <a href="/validacoes">Validações</a>
-              </li>
+              {auth.user?.tipo === "PREFEITURA" && (
+                <li>
+                  <a href="/validacoes">Validações</a>
+                </li>
+              )}
               <li className="li-event">
                 <Button
                   icon={<PlusOutlined />}
