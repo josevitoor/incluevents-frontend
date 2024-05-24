@@ -40,6 +40,11 @@
     margin-bottom: 10px;
 }
 
+.validacao-documento {
+    display: flex;
+    justify-content: space-between;
+}
+
 .botao {
     width: 100px;
     margin-bottom: 10px;
@@ -74,5 +79,10 @@
 .evento-estabelecimento-detalhe {
     border-bottom: 1px solid lightgray;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.documento {
+    border-bottom: 1px solid lightgray;
     padding-bottom: 10px;
 }

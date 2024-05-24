@@ -71,6 +71,19 @@ const validacoesService = {
       showNotification("error", "Erro ao criar validação");
     }
   },
+
+  async validarDocumentacao(idSelo, idDocumentacao, valida) {
+    try {
+      const response = await api.post("/documentacoes-selo/valida", {
+        idSelo,
+        idDocumentacao,
+        valida,
+      });
+      return response.data;
+    } catch (error) {
+      showNotification("error", "Erro ao validar documentação");
+    }
+  },
 };
 
 export default validacoesService;

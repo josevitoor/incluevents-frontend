@@ -46,6 +46,7 @@ const EventoDetails = () => {
   } else {
     buttons.push("documentacao");
   }
+  buttons.push("documentacao");
 
   return (
     <Header>

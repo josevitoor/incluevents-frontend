@@ -67,17 +67,18 @@ const Validacoes = () => {
         const source = isEvento ? data.evento : data.estabelecimento;
         const eventoOrEstabelecimento = isEvento ? "evento" : "estabelecimento";
 
-        const { id, nome, local, urlOriginal, estabelecimento } = source;
-
+        const { id: sourceId, nome, local, urlOriginal, estabelecimento } = source;
         const selos = data.documentacoesSelo.map((grupo) => {
           const {
-            selo: { tipoSelo, id },
+            id: documentoId, 
+            selo: { tipoSelo, id: seloId },
             nomeArquivo,
             urlArquivo,
           } = grupo;
 
           return {
-            id,
+            documentoId,
+            seloId,
             tipoSelo,
             nomeArquivo,
             urlArquivo
@@ -85,6 +86,7 @@ const Validacoes = () => {
         });
 
         return {
+          sourceId,
           nome,
           local,
           urlOriginal,
@@ -102,8 +104,6 @@ const Validacoes = () => {
       const data = await validacoesService.getValidacoesPendentes();
       const treated = tratarJsonVotos(data);
       setValidacoesVotos(treated);
-      console.log("Dados tratados");
-      console.log(treated);
     } catch (error) {
       console.log(error);
     }
@@ -117,8 +117,6 @@ const Validacoes = () => {
 
       const treated = tratarJsonDocumentacoes(data);
       setValidacoesDocs(treated);
-      console.log("Dados tratados (documentos)");
-      console.log(treated);
     } catch (error) {
       console.log(error);
     }
@@ -129,7 +127,17 @@ const Validacoes = () => {
     try {
       await validacoesService.validarSelo(idSelo, possuiSelo);
       loadValidacoesVotos();
-      loadValidacoesDocs
+      loadValidacoesDocs();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const validarDocumentacao = async (idSelo, idDocumentacao, valida) => {
+    try {
+      await validacoesService.validarDocumentacao(idSelo, idDocumentacao, valida);
+      loadValidacoesVotos();
+      loadValidacoesDocs();
     } catch (error) {
       console.log(error);
     }
@@ -222,7 +230,7 @@ const Validacoes = () => {
         <Card className="validacoes-card">
           <List
             loading={loading}
-            dataSource={validacoesVotos}
+            dataSource={validacoesDocs}
             renderItem={(item) => (
               <List.Item key={item.id}>
                 <List.Item.Meta
@@ -253,29 +261,41 @@ const Validacoes = () => {
                           </a>
                         </div>
                       )}
+                      
                     </div>
                   }
                   description={item.selos.map((selo, index) => (
-                    <div key={index} className="validacao">
-                      <div className="nome-selo">
-                        <div className="icon">{getSeloIcon(selo.tipoSelo)}</div>
-                        <div>{selo.tipoSelo}</div>
+                    <div>
+                      
+                      <div key={index} className="validacao-documento">
+                        <div className="nome-selo">
+                          <div className="icon">{getSeloIcon(selo.tipoSelo)}</div>
+                          <div>{selo.tipoSelo}</div>
+                        </div>
+                      
+                        <div className="botoes">
+                          <Button
+                            className="botao-aprovar botao"
+                            onClick={() => validarDocumentacao(selo.seloId, selo.documentoId, true)}
+                          >
+                            Aprovar
+                          </Button>
+                          <Button
+                            className="botao-reprovar botao"
+                            onClick={() => validarDocumentacao(selo.seloId, selo.documentoId, false)}
+                          >
+                            Reprovar
+                          </Button>
+                        </div>
                       </div>
-                      <div className="botoes">
-                        <Button
-                          className="botao-aprovar botao"
-                          onClick={() => validarVotos(selo.id, true)}
-                        >
-                          Aprovar
-                        </Button>
-                        <Button
-                          className="botao-reprovar botao"
-                          onClick={() => validarVotos(selo.id, false)}
-                        >
-                          Reprovar
-                        </Button>
+                      <div className="documento">
+                        Documento comprobatório:  
+                        <a href={selo.urlArquivo} target="_blank" rel="noopener noreferrer">
+                          {selo.nomeArquivo}
+                        </a>
                       </div>
                     </div>
+                    
                   ))}
                 />
               </List.Item>
