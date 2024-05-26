@@ -4,10 +4,10 @@ import EventosForm from "./EventosForm";
 import { Button } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import Logo from "../storage/IncluEvents.svg";
-import { useAuth } from "../contexts/auth";
+import { useApp } from "../contexts/app";
 
 const Header = ({ children }) => {
-  const auth = useAuth();
+  const app = useApp();
 
   const [loading, setLoading] = useState(false);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -35,29 +35,33 @@ const Header = ({ children }) => {
               <li>
                 <a href="/eventos">Eventos</a>
               </li>
-              {auth.user?.tipo === "PREFEITURA" && (
+              {app.user?.tipo === "PREFEITURA" && (
                 <li>
                   <a href="/validacoes">Validações</a>
                 </li>
               )}
               <li className="li-event">
-                <Button
-                  icon={<PlusOutlined />}
-                  onClick={showDrawer}
-                  loading={loading}
-                  className="li-event-button"
-                >
-                  Criar Evento
-                </Button>
-                <EventosForm
-                  isVisible={isDrawerVisible}
-                  onClose={closeDrawer}
-                />
+                {app.user?.tipo === "EMPRESA" && (
+                  <>
+                    <Button
+                      icon={<PlusOutlined />}
+                      onClick={showDrawer}
+                      loading={loading}
+                      className="li-event-button"
+                    >
+                      Criar Evento
+                    </Button>
+                    <EventosForm
+                      isVisible={isDrawerVisible}
+                      onClose={closeDrawer}
+                    />
+                  </>
+                )}
               </li>
               <Button
                 type="primary"
                 danger
-                onClick={auth.logout}
+                onClick={app.logout}
                 icon={<UserOutlined />}
               >
                 Sair

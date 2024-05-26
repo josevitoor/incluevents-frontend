@@ -3,12 +3,12 @@ import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import logo from "../storage/IncluEvents.svg";
-import { useAuth } from "../contexts/auth";
+import { useApp } from "../contexts/app";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const auth = useAuth();
+  const app = useApp();
 
   const redirectToRegister = () => {
     navigate("/create-user");
@@ -23,7 +23,7 @@ const Login = () => {
           <span className="events">Events</span>
         </h1>
         <h3 className="login-subtitle">Entrar</h3>
-        <Form name="login" onFinish={auth.login} layout="vertical">
+        <Form name="login" onFinish={app.login} layout="vertical">
           <Form.Item
             name="username"
             label="Usuário"

@@ -10,31 +10,31 @@ import { ReactComponent as GuiaIcon } from "../storage/GUIA.svg";
 import { ReactComponent as RampaIcon } from "../storage/RAMPA.svg";
 
 export const getSeloIcon = (tipo) => {
-    let component;
-    switch (tipo) {
-      case "ELEVADOR":
-        component = ElevadorIcon;
-        break;
-      case "BANHEIRO":
-        component = BanheiroIcon;
-        break;
-      case "BRAILLE":
-        component = BrailleIcon;
-        break;
-      case "ESTACIONAMENTO":
-        component = EstacionamentoIcon;
-        break;
-      case "GUIA":
-        component = InterpreteIcon;
-        break;
-      case "INTERPRETE":
-        component = GuiaIcon;
-        break;
-      case "RAMPA":
-        component = RampaIcon;
-        break;
-      default:
-        component = "";
-    }
-    return <Icon component={component} />;
+  let component;
+  switch (tipo) {
+    case "ELEVADOR":
+      component = ElevadorIcon;
+      break;
+    case "BANHEIRO":
+      component = BanheiroIcon;
+      break;
+    case "BRAILLE":
+      component = BrailleIcon;
+      break;
+    case "ESTACIONAMENTO":
+      component = EstacionamentoIcon;
+      break;
+    case "GUIA":
+      component = InterpreteIcon;
+      break;
+    case "INTERPRETE":
+      component = GuiaIcon;
+      break;
+    case "RAMPA":
+      component = RampaIcon;
+      break;
+    default:
+      component = "";
+  }
+  return <Icon component={component} />;
 };

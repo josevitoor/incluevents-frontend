@@ -7,10 +7,11 @@ import "./EventoDetails.css";
 import { useParams } from "react-router-dom";
 import ValidarSeloModal from "./SelosModal";
 import Header from "./Header";
-import { useAuth } from "../contexts/auth";
+import { useApp } from "../contexts/app";
+import { getSeloIcon } from "../utils/selosIcons";
 
 const EventoDetails = () => {
-  const auth = useAuth();
+  const app = useApp();
 
   const [evento, setEvento] = useState({});
   const [loading, setLoading] = useState(false);
@@ -37,16 +38,15 @@ const EventoDetails = () => {
 
   const buttons = [];
 
-  if (evento.criador?.id !== auth.user?.id) {
+  if (evento.criador?.id !== app.user?.id) {
     buttons.push("validacao");
 
-    if (!evento.criador && auth.user?.reputacao >= 70) {
+    if (!evento.criador && app.user?.reputacao >= 70) {
       buttons.push("documentacao");
     }
   } else {
     buttons.push("documentacao");
   }
-  buttons.push("documentacao");
 
   return (
     <Header>
@@ -96,6 +96,11 @@ const EventoDetails = () => {
                 {evento.categorias?.map((categoria) => (
                   <Tag key={categoria.id}>{categoria.nome}</Tag>
                 ))}
+                <div>
+                  {app.selosByEventos?.[params.id]?.map((item) => (
+                    <Tag>{getSeloIcon(item.tipoSelo)}</Tag>
+                  ))}
+                </div>
               </>
             }
           />

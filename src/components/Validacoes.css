@@ -1,88 +1,95 @@
 .validacoes-card {
-    width: 70%;
-    margin: 20px 0;
+  width: 70%;
+  margin: 20px 0;
 }
 
 .validacoes-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+}
+
+.votacao-credibilidade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .votacao {
-    display: flex;
+  display: flex;
 }
 
 .votos-positivos {
-   color: green;
-   margin-right: 10px;
+  color: green;
+  margin-right: 10px;
 }
 
 .votos-negativos {
-    color: red;
-    margin-left: 10px;
+  color: red;
+  margin-left: 10px;
 }
 
 .votos-label {
-    margin: 0 5px;
+  margin: 0 5px;
 }
 
 .nome-selo {
-    margin-left: 10px;
-    color: black;
-    width: 200px;
-    display: flex;
+  margin-left: 10px;
+  color: black;
+  width: 200px;
+  display: flex;
 }
 
 .validacao {
-    border-bottom: 1px solid lightgray;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .validacao-documento {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .botao {
-    width: 100px;
-    margin-bottom: 10px;
+  width: 100px;
+  margin-bottom: 10px;
 }
 
 .botao-aprovar {
-    background-color: #4CAF50;
-    color: white;
-    margin-right: 10px;
+  background-color: #4caf50;
+  color: white;
+  margin-right: 10px;
 }
 
 .botao-reprovar {
-    background-color: #F44336;
-    color: white;
+  background-color: #f44336;
+  color: white;
 }
 
 .icon {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .centered-tabs .ant-tabs-tab {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .centered-tabs .ant-tabs-nav-wrap {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .evento-estabelecimento-detalhe {
-    border-bottom: 1px solid lightgray;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 .documento {
-    border-bottom: 1px solid lightgray;
-    padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 10px;
 }

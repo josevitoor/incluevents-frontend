@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { List, Button, Card } from "antd";
+import { List, Button, Card, Tag } from "antd";
 import eventosService from "../services/eventosService";
 import { formatDate, showNotification } from "../utils/utils";
 import { CalendarOutlined, EnvironmentOutlined } from "@ant-design/icons";
@@ -8,8 +8,11 @@ import { Link } from "react-router-dom";
 import Search from "antd/es/transfer/search";
 import { getSeloIcon } from "../utils/selosIcons";
 import Header from "./Header";
+import { useApp } from "../contexts/app";
 
 const EventosList = () => {
+  const app = useApp();
+
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,7 +131,11 @@ const EventosList = () => {
                       <div className="event-description">
                         <CalendarOutlined /> {formatDate(item.inicio)}
                       </div>
-                      <div className="event-description">{getSeloIcon()}</div>
+                      <div className="event-description">
+                        {app.selosByEventos?.[item.id]?.map((item) => (
+                          <Tag>{getSeloIcon(item.tipoSelo)}</Tag>
+                        ))}
+                      </div>
                     </>
                   }
                   avatar={

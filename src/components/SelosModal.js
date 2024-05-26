@@ -15,7 +15,7 @@ import validacoesService from "../services/validacoesService";
 import { useParams } from "react-router-dom";
 import { getSeloIcon } from "../utils/selosIcons";
 import { UploadOutlined } from "@ant-design/icons";
-import { useAuth } from "../contexts/auth";
+import { useApp } from "../contexts/app";
 import documentacoesService from "../services/documentacaoService";
 
 const ValidarSeloModal = ({ open, onClose, evento, tipo = "validacao" }) => {
@@ -78,6 +78,7 @@ const ValidarSeloModal = ({ open, onClose, evento, tipo = "validacao" }) => {
   useEffect(() => {
     if (open) {
       loadTiposSelo();
+      setFile();
     }
   }, [open]);
 

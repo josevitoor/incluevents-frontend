@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { List, Button, Card, Tabs } from "antd";
 import validacoesService from "../services/validacoesService";
 import { getSeloIcon } from "../utils/selosIcons";
-import { useAuth } from "../contexts/auth";
+import { useApp } from "../contexts/app";
 
 import "./Validacoes.css";
 import Header from "./Header";
@@ -12,8 +12,7 @@ const Validacoes = () => {
   const [validacoesDocs, setValidacoesDocs] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const auth = useAuth();
-
+  const app = useApp();
 
   useEffect(() => {
     checkUserPermission();
@@ -22,10 +21,10 @@ const Validacoes = () => {
   }, []);
 
   const checkUserPermission = () => {
-    if (auth.user?.tipo !== "PREFEITURA") {
+    if (app.user?.tipo !== "PREFEITURA") {
       window.location.href = "/eventos";
     }
-    if (!auth.user) {
+    if (!app.user) {
       window.location.href = "/login";
     }
   };
@@ -81,10 +80,16 @@ const Validacoes = () => {
         const source = isEvento ? data.evento : data.estabelecimento;
         const eventoOrEstabelecimento = isEvento ? "evento" : "estabelecimento";
 
-        const { id: sourceId, nome, local, urlOriginal, estabelecimento } = source;
+        const {
+          id: sourceId,
+          nome,
+          local,
+          urlOriginal,
+          estabelecimento,
+        } = source;
         const selos = data.documentacoesSelo.map((grupo) => {
           const {
-            id: documentoId, 
+            id: documentoId,
             selo: { tipoSelo, id: seloId },
             nomeArquivo,
             urlArquivo,
@@ -95,7 +100,7 @@ const Validacoes = () => {
             seloId,
             tipoSelo,
             nomeArquivo,
-            urlArquivo
+            urlArquivo,
           };
         });
 
@@ -149,7 +154,11 @@ const Validacoes = () => {
 
   const validarDocumentacao = async (idSelo, idDocumentacao, valida) => {
     try {
-      await validacoesService.validarDocumentacao(idSelo, idDocumentacao, valida);
+      await validacoesService.validarDocumentacao(
+        idSelo,
+        idDocumentacao,
+        valida
+      );
       loadValidacoesVotos();
       loadValidacoesDocs();
     } catch (error) {
@@ -202,16 +211,25 @@ const Validacoes = () => {
                         <div className="icon">{getSeloIcon(selo.tipoSelo)}</div>
                         <div>{selo.tipoSelo}</div>
                       </div>
-                      <div className="votacao">
-                        <div className="votos-label">Aprovaram</div>
+                      <div className="votacao-credibilidade">
+                        <div className="votacao">
+                          <div className="votos-label">Aprovaram</div>
+                          <div className="votos-positivos">
+                            {selo.enviosPositivos}
+                          </div>
+                          <div>|</div>
+                          <div className="votos-negativos">
+                            {selo.enviosNegativos}
+                          </div>
+                          <div className="votos-label">Reprovaram</div>
+                        </div>
                         <div className="votos-positivos">
-                          {selo.enviosPositivos}
+                          {(
+                            (selo.scorePositivo * 100) /
+                            selo.totalScore
+                          ).toFixed(0)}
+                          % de credibilidade
                         </div>
-                        <div>|</div>
-                        <div className="votos-negativos">
-                          {selo.enviosNegativos}
-                        </div>
-                        <div className="votos-label">Reprovaram</div>
                       </div>
                       <div className="botoes">
                         <Button
@@ -275,41 +293,57 @@ const Validacoes = () => {
                           </a>
                         </div>
                       )}
-                      
                     </div>
                   }
                   description={item.selos.map((selo, index) => (
                     <div>
-                      
                       <div key={index} className="validacao-documento">
                         <div className="nome-selo">
-                          <div className="icon">{getSeloIcon(selo.tipoSelo)}</div>
+                          <div className="icon">
+                            {getSeloIcon(selo.tipoSelo)}
+                          </div>
                           <div>{selo.tipoSelo}</div>
                         </div>
-                      
+
                         <div className="botoes">
                           <Button
                             className="botao-aprovar botao"
-                            onClick={() => validarDocumentacao(selo.seloId, selo.documentoId, true)}
+                            onClick={() =>
+                              validarDocumentacao(
+                                selo.seloId,
+                                selo.documentoId,
+                                true
+                              )
+                            }
                           >
                             Aprovar
                           </Button>
                           <Button
                             className="botao-reprovar botao"
-                            onClick={() => validarDocumentacao(selo.seloId, selo.documentoId, false)}
+                            onClick={() =>
+                              validarDocumentacao(
+                                selo.seloId,
+                                selo.documentoId,
+                                false
+                              )
+                            }
                           >
                             Reprovar
                           </Button>
                         </div>
                       </div>
                       <div className="documento">
-                        Documento comprobatório:  
-                        <a href={selo.urlArquivo} target="_blank" rel="noopener noreferrer">
+                        Documento comprobatório:
+                        <a
+                          href={selo.urlArquivo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download={selo.nomeArquivo}
+                        >
                           {selo.nomeArquivo}
                         </a>
                       </div>
                     </div>
-                    
                   ))}
                 />
               </List.Item>

@@ -6,12 +6,12 @@ import EventoDetails from "../components/EventoDetails";
 import Validacoes from "../components/Validacoes";
 import CreateUser from "../components/CreateUser";
 import Login from "../components/Login";
-import { AuthProvider, useAuth } from "../contexts/auth";
+import { AppProvider, useApp } from "../contexts/app";
 
 const PrivateRoute = ({ element: Element, ...rest }) => {
-  const auth = useAuth();
+  const app = useApp();
 
-  const isAuthenticated = !!auth.user;
+  const isAuthenticated = !!app.user;
 
   return isAuthenticated ? <Element {...rest} /> : <Navigate to="/login" />;
 };
@@ -19,7 +19,7 @@ const PrivateRoute = ({ element: Element, ...rest }) => {
 const RouterEventos = () => {
   return (
     <BrowserRouter>
-      <AuthProvider>
+      <AppProvider>
         <Routes>
           <Route path="/" element={<Navigate to="/eventos" />} />
           <Route path="/login" element={<Login />} />
@@ -45,7 +45,7 @@ const RouterEventos = () => {
             element={<PrivateRoute element={Validacoes} />}
           />
         </Routes>
-      </AuthProvider>
+      </AppProvider>
     </BrowserRouter>
   );
 };
