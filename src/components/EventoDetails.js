@@ -40,11 +40,12 @@ const EventoDetails = () => {
 
   if (evento.criador?.id !== app.user?.id) {
     buttons.push("validacao");
+  }
 
-    if (!evento.criador && app.user?.reputacao >= 70) {
-      buttons.push("documentacao");
-    }
-  } else {
+  if (
+    app.user?.tipo === "SERVIDOR" ||
+    (app.user?.tipo === "ESTUDANTE" && app.user?.imc >= 7)
+  ) {
     buttons.push("documentacao");
   }
 

@@ -35,28 +35,25 @@ const Header = ({ children }) => {
               <li>
                 <a href="/eventos">Eventos</a>
               </li>
-              {app.user?.tipo === "PREFEITURA" && (
-                <li>
-                  <a href="/validacoes">Validações</a>
-                </li>
-              )}
-              <li className="li-event">
-                {app.user?.tipo === "EMPRESA" && (
-                  <>
-                    <Button
-                      icon={<PlusOutlined />}
-                      onClick={showDrawer}
-                      loading={loading}
-                      className="li-event-button"
-                    >
-                      Criar Evento
-                    </Button>
-                    <EventosForm
-                      isVisible={isDrawerVisible}
-                      onClose={closeDrawer}
-                    />
-                  </>
+              {app.user?.tipo === "SERVIDOR" &&
+                app.user?.cargo === "COORDENACAO" && (
+                  <li>
+                    <a href="/validacoes">Validações</a>
+                  </li>
                 )}
+              <li className="li-event">
+                <Button
+                  icon={<PlusOutlined />}
+                  onClick={showDrawer}
+                  loading={loading}
+                  className="li-event-button"
+                >
+                  Criar Evento
+                </Button>
+                <EventosForm
+                  isVisible={isDrawerVisible}
+                  onClose={closeDrawer}
+                />
               </li>
               <Button
                 type="primary"

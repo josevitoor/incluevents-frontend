@@ -21,7 +21,7 @@ const Validacoes = () => {
   }, []);
 
   const checkUserPermission = () => {
-    if (app.user?.tipo !== "PREFEITURA") {
+    if (app.user?.tipo !== "SERVIDOR" || app.user?.cargo !== "COORDENACAO") {
       window.location.href = "/eventos";
     }
     if (!app.user) {
