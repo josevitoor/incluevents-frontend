@@ -63,6 +63,32 @@ const usuarioService = {
 
     return response.data;
   },
+
+  async getUsuarios() {
+    try {
+      const response = await api.get("/usuarios");
+      return response.data;
+    } catch (error) {
+      showNotification(
+        "error",
+        "Erro ao buscar usuários."
+      );
+      throw error;
+    }
+  },
+
+  async validateDocumentacaoUsuario(validateDocumentacaoUsuarioDtoMaracana) {
+    try {
+      const response = await api.post("/usuarios/validate-documentacao", validateDocumentacaoUsuarioDtoMaracana);
+      return response.data;
+    } catch (error) {
+      showNotification(
+        "error",
+        "Erro ao validar documentação do usuário."
+      );
+      throw error;
+    }
+  },
 };
 
 export default usuarioService;
