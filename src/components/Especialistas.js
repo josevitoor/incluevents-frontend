@@ -7,7 +7,7 @@ import { useApp } from "../contexts/app";
 import "./Validacoes.css";
 import Header from "./Header";
 
-const Validacoes = () => {
+const Especialistas = () => {
   const [validacoesVotos, setValidacoesVotos] = useState([]);
   const [validacoesDocs, setValidacoesDocs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -368,4 +368,4 @@ const Validacoes = () => {
   );
 };
 
-export default Validacoes;
+export default Especialistas;

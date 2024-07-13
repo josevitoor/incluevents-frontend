@@ -41,8 +41,13 @@ const usuarioService = {
   },
 
   async createUser(userData) {
+    console.log("userData", userData);
     try {
-      const response = await openApi.post("/usuarios", userData);
+      const response = await openApi.post("/usuarios", userData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       return response.data;
     } catch (error) {
       showNotification(

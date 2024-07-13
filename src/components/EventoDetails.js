@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { List, Button, Card, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Card, Tag } from "antd";
 import eventosService from "../services/eventosService";
 import { formatDate, showNotification } from "../utils/utils";
 import { CalendarOutlined, EnvironmentOutlined } from "@ant-design/icons";
@@ -36,17 +36,7 @@ const EventoDetails = () => {
     }
   };
 
-  const buttons = [];
-
-  if (evento.criador?.id !== app.user?.id) {
-    buttons.push("validacao");
-
-    if (!evento.criador && app.user?.reputacao >= 70) {
-      buttons.push("documentacao");
-    }
-  } else {
-    buttons.push("documentacao");
-  }
+  const buttons = ["validacao", "documentacao"];
 
   const parseLinks = (linkString) => {
     if (!linkString) return [];
@@ -67,7 +57,7 @@ const EventoDetails = () => {
         <Card
           className="evento-card"
           actions={[
-            ...buttons.map((key) => (
+            ...(app.user?.tipo === "ESPECIALISTA" ? buttons.map((key) => (
               <span
                 key={key}
                 role="button"
@@ -77,7 +67,7 @@ const EventoDetails = () => {
                   ? "Realizar feedback de acessibilidade"
                   : "Enviar documentação de acessibilidade"}
               </span>
-            )),
+            )) : [])
           ]}
         >
           <Card.Meta
@@ -110,7 +100,7 @@ const EventoDetails = () => {
                 ))}
                 <div>
                   {app.selosByEventos?.[params.id]?.map((item) => (
-                    <Tag>{getSeloIcon(item.tipoSelo)}</Tag>
+                    <Tag key={item.id}>{getSeloIcon(item.tipoSelo)}</Tag>
                   ))}
                 </div>
               </>

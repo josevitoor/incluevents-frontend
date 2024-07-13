@@ -1,5 +1,6 @@
-import React from "react";
-import { Form, Input, Button, Select, message } from "antd";
+import React, { useState } from "react";
+import { Form, Input, Button, Select, message, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import usuarioService from "../services/usuarioService";
 import { useNavigate } from "react-router-dom";
 
@@ -7,13 +8,31 @@ const { Option } = Select;
 
 const CreateUser = () => {
   const navigate = useNavigate();
+  const [isEspecialista, setIsEspecialista] = useState(false);
 
   const onFinish = async (values) => {
+    const formData = new FormData();
+    formData.append("nome", values.nome);
+    formData.append("email", values.email);
+    formData.append("username", values.username);
+    formData.append("senha", values.senha);
+    formData.append("tipo", values.tipo);
+
+    if (values.tipo === "ESPECIALISTA" && values.documentacao && values.documentacao[0].originFileObj) {
+      formData.append("documentacao", values.documentacao[0].originFileObj);
+    }
+
     try {
-      await usuarioService.createUser(values);
+      await usuarioService.createUser(formData);
       message.success("Usuário cadastrado com sucesso!");
       navigate("/login");
-    } catch (error) {}
+    } catch (error) {
+      message.error("Erro ao cadastrar usuário!");
+    }
+  };
+
+  const handleTipoChange = (value) => {
+    setIsEspecialista(value === "ESPECIALISTA");
   };
 
   const redirectToLogin = () => {
@@ -34,7 +53,7 @@ const CreateUser = () => {
         <Form.Item
           name="email"
           label="Email"
-          rules={[{ required: true, message: "Por favor insita seu email!" }]}
+          rules={[{ required: true, message: "Por favor insira seu email!" }]}
         >
           <Input />
         </Form.Item>
@@ -67,12 +86,30 @@ const CreateUser = () => {
             },
           ]}
         >
-          <Select>
+          <Select onChange={handleTipoChange}>
             <Option value="COMUM">Comum</Option>
             <Option value="ESPECIALISTA">Especialista</Option>
             <Option value="ORGAO_VALIDACAO">Orgão de validação</Option>
           </Select>
         </Form.Item>
+        {isEspecialista && (
+          <Form.Item
+            name="documentacao"
+            label="Documentação"
+            valuePropName="fileList"
+            getValueFromEvent={(e) => Array.isArray(e) ? e : e && e.fileList}
+            rules={[
+              {
+                required: true,
+                message: "Por favor envie a documentação!",
+              },
+            ]}
+          >
+            <Upload beforeUpload={() => false}>
+              <Button icon={<UploadOutlined />}>Clique para enviar</Button>
+            </Upload>
+          </Form.Item>
+        )}
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Cadastrar

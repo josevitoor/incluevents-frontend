@@ -35,14 +35,18 @@ const Header = ({ children }) => {
               <li>
                 <a href="/eventos">Eventos</a>
               </li>
-              {app.user?.tipo === "PREFEITURA" && (
+               {app.user.tipo === "ORGAO_VALIDACAO" && (
                 <li>
                   <a href="/validacoes">Validações</a>
                 </li>
               )}
+              {app.user?.tipo === "ORGAO_VALIDACAO" && (
+                <li>
+                  <a href="/validacoes-especialistas">Especialistas</a>
+                </li>
+              )}
               <li className="li-event">
-                {app.user?.tipo === "EMPRESA" && (
-                  <>
+                <>
                     <Button
                       icon={<PlusOutlined />}
                       onClick={showDrawer}
@@ -56,7 +60,6 @@ const Header = ({ children }) => {
                       onClose={closeDrawer}
                     />
                   </>
-                )}
               </li>
               <Button
                 type="primary"

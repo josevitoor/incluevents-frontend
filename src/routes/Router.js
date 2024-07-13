@@ -4,6 +4,7 @@ import EventosList from "../components/EventosList";
 import EventosForm from "../components/EventosForm";
 import EventoDetails from "../components/EventoDetails";
 import Validacoes from "../components/Validacoes";
+import Especialistas from "../components/Especialistas";
 import CreateUser from "../components/CreateUser";
 import Login from "../components/Login";
 import { AppProvider, useApp } from "../contexts/app";
@@ -43,6 +44,10 @@ const RouterEventos = () => {
           <Route
             path="/validacoes"
             element={<PrivateRoute element={Validacoes} />}
+          />
+           <Route
+            path="/validacoes-especialistas"
+            element={<PrivateRoute element={Especialistas} />}
           />
         </Routes>
       </AppProvider>
