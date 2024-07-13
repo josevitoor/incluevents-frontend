@@ -3,7 +3,7 @@ import "./header.css";
 import EventosForm from "./EventosForm";
 import { Button } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
-import Logo from "../storage/IncluEvents.svg";
+import Logo from "../storage/logo-maracana.jpg";
 import { useApp } from "../contexts/app";
 
 const Header = ({ children }) => {
@@ -29,7 +29,7 @@ const Header = ({ children }) => {
               <li>
                 <a href="/eventos">
                   <img src={Logo} width={40} />
-                  <h1>IncluEvents</h1>
+                  <h1>IncluEvents - Maracanã</h1>
                 </a>
               </li>
               <li>

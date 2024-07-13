@@ -69,8 +69,8 @@ const CreateUser = () => {
         >
           <Select>
             <Option value="COMUM">Comum</Option>
-            <Option value="EMPRESA">Empresa</Option>
-            <Option value="PREFEITURA">Prefeitura</Option>
+            <Option value="ESPECIALISTA">Especialista</Option>
+            <Option value="ORGAO_VALIDACAO">Orgão de validação</Option>
           </Select>
         </Form.Item>
         <Form.Item>

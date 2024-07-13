@@ -31,7 +31,13 @@ body {
 .login-subtitle {
     text-align: left;
     margin-bottom: 1rem;
-  }
+}
+
+.login-maracana {
+  text-align: left;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
 
 .inclu {
   color: #46CDFB;

@@ -22,6 +22,14 @@ const EventosList = () => {
     loadEvents();
   }, [currentPage]);
 
+
+  const parseLinks = (linkString) => {
+    let cleanString = linkString.replace(/[\[\]\s]/g, '');
+    let linkArray = cleanString.split(',');
+    return linkArray;
+  }
+  
+
   const loadEvents = async () => {
     setLoading(true);
     try {
@@ -143,8 +151,14 @@ const EventosList = () => {
                       <img
                         className="event-image"
                         alt="imagem"
-                        src={item.imagemUrl}
+                        src={parseLinks(item.imagemUrl)[0]}
                       />
+                      <img
+                        className="event-image"
+                        alt="imagem"
+                        src={parseLinks(item.imagemUrl)[1]}
+                      />
+                      
                     </Link>
                   }
                 />

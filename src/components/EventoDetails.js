@@ -48,6 +48,13 @@ const EventoDetails = () => {
     buttons.push("documentacao");
   }
 
+  const parseLinks = (linkString) => {
+    if (!linkString) return [];
+    let cleanString = linkString.replace(/[\[\]\s]/g, '');
+    let linkArray = cleanString.split(',');
+    return linkArray;
+  }
+
   return (
     <Header>
       <div className="evento-details-container">
@@ -60,7 +67,6 @@ const EventoDetails = () => {
         <Card
           className="evento-card"
           actions={[
-            <a href={evento?.urlOriginal}>Inscreva-se!</a>,
             ...buttons.map((key) => (
               <span
                 key={key}
@@ -76,12 +82,18 @@ const EventoDetails = () => {
         >
           <Card.Meta
             avatar={
-              <img
-                width="100%"
-                alt="imagem"
-                src={evento?.imagemUrl}
-                style={{ maxWidth: "500px" }}
-              />
+              <>
+                <img
+                  className="event-image"
+                  alt="imagem"
+                  src={parseLinks(evento?.imagemUrl)[0]}
+                />
+                <img
+                  className="event-image"
+                  alt="imagem"
+                  src={parseLinks(evento?.imagemUrl)[1]}
+                />
+              </>
             }
             title={evento.nome}
             description={
