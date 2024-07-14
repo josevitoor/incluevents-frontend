@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Select, message } from "antd";
 import usuarioService from "../services/usuarioService";
 import { useNavigate } from "react-router-dom";
@@ -7,17 +7,24 @@ const { Option } = Select;
 
 const CreateUser = () => {
   const navigate = useNavigate();
+  const [userType, setUserType] = useState(null);
 
   const onFinish = async (values) => {
     try {
       await usuarioService.createUser(values);
       message.success("Usuário cadastrado com sucesso!");
       navigate("/login");
-    } catch (error) {}
+    } catch (error) {
+      message.error("Erro ao cadastrar usuário!");
+    }
   };
 
   const redirectToLogin = () => {
     navigate("/login");
+  };
+
+  const handleUserTypeChange = (value) => {
+    setUserType(value);
   };
 
   return (
@@ -34,7 +41,7 @@ const CreateUser = () => {
         <Form.Item
           name="email"
           label="Email"
-          rules={[{ required: true, message: "Por favor insita seu email!" }]}
+          rules={[{ required: true, message: "Por favor insira seu email!" }]}
         >
           <Input />
         </Form.Item>
@@ -67,12 +74,60 @@ const CreateUser = () => {
             },
           ]}
         >
-          <Select>
-            <Option value="COMUM">Comum</Option>
-            <Option value="EMPRESA">Empresa</Option>
-            <Option value="PREFEITURA">Prefeitura</Option>
+          <Select onChange={handleUserTypeChange}>
+            <Option value="ESTUDANTE">Estudante</Option>
+            <Option value="SERVIDOR">Servidor</Option>
           </Select>
         </Form.Item>
+
+        {userType === "SERVIDOR" && (
+        <>
+            <Form.Item
+                name="cargo"
+                label="Cargo"
+                rules={[
+                {
+                    required: true,
+                    message: "Por favor selecione o cargo!",
+                },
+                ]}
+            >
+                <Select>
+                <Option value="PROFESSOR">Professor</Option>
+                <Option value="REITORIA">Reitoria</Option>
+                <Option value="COORDENACAO">Coordenação</Option>
+                </Select>
+            </Form.Item>
+            <Form.Item
+            name="tempoServico"
+            label="Tempo de Serviço"
+            rules={[
+                {
+                required: true,
+                message: "Por favor insira seu Tempo de Serviço!",
+                },
+            ]}
+            >
+            <Input type="number" step="0.1" />
+            </Form.Item>
+        </>
+        )}
+
+        {userType === "ESTUDANTE" && (
+          <Form.Item
+            name="imc"
+            label="IMC"
+            rules={[
+              {
+                required: true,
+                message: "Por favor insira seu IMC!",
+              },
+            ]}
+          >
+            <Input type="number" step="0.1" />
+          </Form.Item>
+        )}
+
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Cadastrar

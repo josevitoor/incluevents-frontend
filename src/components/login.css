@@ -43,4 +43,11 @@ body {
 
 .logo {
     width: 150px;
-  }
+}
+
+.login-ufpb {
+    text-align: left;
+    margin-bottom: 1rem;
+    font-size: 14px;
+    margin-left: 8px;
+}

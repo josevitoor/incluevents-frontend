@@ -3,7 +3,7 @@ import "./header.css";
 import EventosForm from "./EventosForm";
 import { Button } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
-import Logo from "../storage/IncluEvents.svg";
+import Logo from "../assets/img/ufpb_logo.png";
 import { useApp } from "../contexts/app";
 
 const Header = ({ children }) => {

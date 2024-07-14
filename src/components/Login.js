@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
-import logo from "../storage/IncluEvents.svg";
+import logo from "../assets/img/ufpb_logo.png";
 import { useApp } from "../contexts/app";
 
 const Login = () => {
@@ -21,6 +21,7 @@ const Login = () => {
         <h1 className="login-title">
           <span className="inclu">Inclu</span>
           <span className="events">Events</span>
+          <span className="login-ufpb">UFPB</span>
         </h1>
         <h3 className="login-subtitle">Entrar</h3>
         <Form name="login" onFinish={app.login} layout="vertical">
